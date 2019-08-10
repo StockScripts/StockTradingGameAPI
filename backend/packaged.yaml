@@ -1,0 +1,66 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  GetUserInfoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies: AWSLambdaDynamoDBExecutionRole
+      Runtime: nodejs10.x
+      Handler: get_user_info.handler
+      CodeUri: s3://bbalfreystockgame/ec7bade60ae106e782d02cc0158bfab2
+      Events:
+        BBStocksGamesAPI:
+          Type: Api
+          Properties:
+            Path: /getuserinfo
+            Method: ANY
+  NewUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies: AWSLambdaDynamoDBExecutionRole
+      Runtime: nodejs10.x
+      Handler: new_user_info.handler
+      CodeUri: s3://bbalfreystockgame/ec7bade60ae106e782d02cc0158bfab2
+      Events:
+        BBStocksGamesAPI:
+          Type: Api
+          Properties:
+            Path: /newuserinfo
+            Method: ANY
+  BuyStockFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies: AWSLambdaDynamoDBExecutionRole
+      Runtime: nodejs10.x
+      Handler: buy_stock.handler
+      CodeUri: s3://bbalfreystockgame/ec7bade60ae106e782d02cc0158bfab2
+      Events:
+        BBStocksGamesAPI:
+          Type: Api
+          Properties:
+            Path: /buystock
+            Method: ANY
+  SellStockFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies: AWSLambdaDynamoDBExecutionRole
+      Runtime: nodejs10.x
+      Handler: sell_stock.handler
+      CodeUri: s3://bbalfreystockgame/ec7bade60ae106e782d02cc0158bfab2
+      Events:
+        BBStocksGamesAPI:
+          Type: Api
+          Properties:
+            Path: /sellstock
+            Method: ANY
+  StockGameTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: USER_ID
+        AttributeType: S
+      KeySchema:
+      - AttributeName: USER_ID
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
